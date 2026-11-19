@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+*.zip
+*.log
+*.tsbuildinfo
+.env*
+__pycache__/
+*.blend1
+*.blend2
+.local-py/
+.openai/
