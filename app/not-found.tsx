@@ -1,0 +1,1 @@
+export default function NotFound(){return <main className="safe-error"><h1>This page wandered off.</h1><p>The page you’re looking for isn’t here.</p><a href="/">Return to Bharat’s workspace ↗</a></main>;}

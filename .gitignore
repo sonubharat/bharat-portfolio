@@ -10,3 +10,11 @@ __pycache__/
 *.blend2
 .local-py/
 .openai/
+
+# Local credentials and private keys
+.ssh/
+*.pem
+*.key
+*.p12
+*.pfx
+.npmrc

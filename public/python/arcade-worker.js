@@ -10,15 +10,20 @@ async function boot(){
   postMessage({type:'ready'});
 }
 const ready=boot();
-ready.catch(error=>postMessage({type:'error',error:String(error)}));
+ready.catch(()=>postMessage({type:'error',error:'The games could not start. Please retry.'}));
+let pending=0;
 onmessage=event=>{
-  const {id,payload}=event.data;
+  const data=event.data;
+  if(!data||!Number.isSafeInteger(data.id)||data.id<1||!data.payload||typeof data.payload!=='object'||Array.isArray(data.payload))return;
+  const {id,payload}=data;
+  if(pending>=8){postMessage({type:'error',id,error:'Please wait for the current move.'});return;}
+  pending++;
   queue=queue.then(async()=>{
     try{
       await ready;
       engine.globals.set('arcade_request',JSON.stringify(payload));
       const json=engine.runPython('handle(arcade_request)');
       postMessage({type:'result',id,state:JSON.parse(json)});
-    }catch(error){postMessage({type:'error',id,error:String(error)});}
+    }catch{postMessage({type:'error',id,error:'That move could not be completed. Please retry.'});}finally{pending--;}
   });
 };

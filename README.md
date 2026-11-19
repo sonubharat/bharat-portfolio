@@ -51,3 +51,6 @@ See `blender/README.md` for regeneration. Editable sources remain in `blender/sc
 ## Verification
 
 Production build and TypeScript; structural GLB validation; browser-loaded hero, studio and all project GLBs; desktop and 390px phone visual checks; navigation, dialog open/close, feature disclosures, and mobile poster fallback. Browser console inspected for errors. Broad hardware performance benchmarking and a formal accessibility audit have not been performed.
+
+## Security review
+See SECURITY_REVIEW.md for the supplied seven-check audit, verification commands, and static-host header requirements. Build with npm run build so CSP hashes match the generated HTML. Deploy only out/, never the project folder or development server.

@@ -46,7 +46,24 @@ class Arcade:
                 board[i]=''
         return max(values) if turn=='O' else min(values)
 
+    @staticmethod
+    def validate(payload):
+        if not isinstance(payload, dict): raise ValueError('Invalid game request')
+        game = payload.get('game', 'hangman')
+        action = payload.get('action', 'view')
+        actions = {'hangman': {'new','view','guess'}, 'ttt': {'new','view','play'}, 'memory': {'new','view','flip','settle'}}
+        if not isinstance(game,str) or game not in actions or not isinstance(action,str) or action not in actions[game]: raise ValueError('Invalid game request')
+        allowed = {'game','action'}
+        if action == 'new': allowed.add('mode')
+        if action == 'guess': allowed.add('letter')
+        if action in {'play','flip'}: allowed.add('cell')
+        if set(payload) - allowed: raise ValueError('Invalid game request')
+        if 'mode' in payload and (not isinstance(payload['mode'],str) or payload['mode'] not in {'ai','friend'}): raise ValueError('Invalid game request')
+        if action == 'guess' and (not isinstance(payload.get('letter'),str) or len(payload['letter']) != 1 or payload['letter'].upper() not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'): raise ValueError('Invalid game request')
+        if action in {'play','flip'} and (type(payload.get('cell')) is not int or not 0 <= payload['cell'] < (9 if game == 'ttt' else 16)): raise ValueError('Invalid game request')
+
     def dispatch(self, payload):
+        self.validate(payload)
         game=payload.get('game','hangman')
         action=payload.get('action','view')
         if action=='new' or game not in self.games:
@@ -104,4 +121,5 @@ class Arcade:
 
 arcade=Arcade()
 def handle(request):
+    if not isinstance(request,str) or len(request)>1024: raise ValueError('Invalid game request')
     return json.dumps(arcade.dispatch(json.loads(request)))

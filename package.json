@@ -1,1 +1,29 @@
-{"name":"bharat-portfolio","version":"1.0.0","private":true,"scripts":{"dev":"next dev --hostname 127.0.0.1","build":"next build","start":"next start","typecheck":"tsc --noEmit"},"dependencies":{"next":"^16.0.0","react":"^19.0.0","react-dom":"^19.0.0","three":"^0.180.0","@react-three/fiber":"^9.0.0","@react-three/drei":"^10.0.0","gsap":"^3.13.0"},"devDependencies":{"typescript":"^5.0.0","@types/react":"^19.0.0","@types/react-dom":"^19.0.0","@types/three":"^0.180.0","@types/node":"^22.0.0"}}
+{
+  "name": "bharat-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build && node scripts/secure-export.mjs",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "security:secrets": "python scripts/check_secrets.py",
+    "security:test": "python scripts/check_security.py"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "three": "^0.180.0",
+    "@react-three/fiber": "^9.0.0",
+    "@react-three/drei": "^10.0.0",
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.180.0",
+    "@types/node": "^22.0.0"
+  }
+}
